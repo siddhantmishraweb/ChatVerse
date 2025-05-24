@@ -7,7 +7,22 @@ import ChatWindow from "../../components/ChatWindow";
 import type { User, Chat } from "../../types";
 
 export default function ChatsPage() {
-  const [user, setUser] = useState<User | null>(null);
+  //const [user, setUser] = useState<User | null>(null);
+
+  const [user, setUser] = useState<User | null>(() => {
+    // Initial state is loaded from localStorage if available
+    const savedSession = localStorage.getItem('supabaseSession');
+    if (savedSession) {
+      try {
+        const parsed = JSON.parse(savedSession);
+        console.log("parsed::: ", parsed)
+        return parsed?.user || null;
+      } catch (err) {
+        console.error('Failed to parse session from localStorage:', err);
+      }
+    }
+    return null;
+  });
   const [chats, setChats] = useState<Chat[]>([]);
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [activeChat, setActiveChat] = useState<Chat | null>(null);
