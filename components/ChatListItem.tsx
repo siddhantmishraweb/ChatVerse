@@ -18,7 +18,6 @@ export default function ChatListItem({
   onSelect,
 }: Props) {
   console.info("current user:", currentUser)
-  console.info("senderUser ChatListItem ", senderUser)
   const { title, last_message } = chat;
   return (
     <article
