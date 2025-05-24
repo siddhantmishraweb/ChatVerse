@@ -30,10 +30,19 @@ export default function ChatSidebar({
 
   console.log("senderList------", senderList);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    window.location.href = "/login";
-  };
+  // const handleLogout = async () => {
+  //   await supabase.auth.signOut();
+  //   window.location.href = "/login";
+  // };
+
+const handleLogout = async () => {
+  await supabase.auth.signOut();
+  
+  localStorage.clear();
+  
+  window.location.href = "/";
+};
+
 
   return (
     <aside className="w-80 bg-white border-r flex flex-col">
