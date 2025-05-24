@@ -101,6 +101,7 @@ export default function Login() {
       // if (data?.session) {
       //   router.push('/chats');
       // }
+      console.log("Session:: ", data)
       if (data?.session) {
         localStorage.setItem('supabaseSession', JSON.stringify(data));
         return router.push('/chats');
@@ -110,9 +111,7 @@ export default function Login() {
     });
   }, []);
 
-  const login = () => {
-    supabase.auth.signInWithOAuth({ provider: 'google' });
-  };
+  const login = () => supabase.auth.signInWithOAuth({ provider: 'google' });
 
   return (
     <main className="relative h-screen w-screen overflow-hidden font-sans">
