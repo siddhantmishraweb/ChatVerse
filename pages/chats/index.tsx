@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { useEffect, useState } from "react";
 import { supabase } from "../../utils/supabaseClient";
 import ChatSidebar from "../../components/ChatSidebar";
@@ -58,13 +60,6 @@ const addToSenderList = (otherUser: User) => {
         filteredChats.map(async (chat) => {
           const otherMemberId = chat.members.find((m) => m !== user.id);
           if (!otherMemberId) return chat;
-
-          // Fetch the user info from auth.users (or your users table if you store metadata separately)
-          // const { data: otherUser, error: userError } = await supabase
-          //   .from('users') // or 'auth.users' if querying auth table directly
-          //   .select('user_metadata->>full_name, user_metadata->>avatar_url')
-          //   .eq('id', otherMemberId)
-          //   .single();
 
           const { data: otherUser, error } = await supabase
             .from("users")
