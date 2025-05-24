@@ -24,6 +24,7 @@ export default function ChatWindow({
   const scrollRef = useRef<HTMLDivElement>(null);
 
   console.log("Sender list:: ", senderList);
+console.log("onSelectChat" , onSelectChat)
 
   useEffect(() => {
     if (!activeChat) return;
