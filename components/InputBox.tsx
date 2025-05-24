@@ -41,84 +41,180 @@ export default function MessageInput({ chatId, userId }: Props) {
     }
   };
 
-  const sendMessage = async () => {
-    if (audioBlob) {
-      const audioPath = `${chatId}/${Date.now()}.webm`;
-      const { data, error } = await supabase.storage
-        .from("attachments")
-        .upload(audioPath, audioBlob);
+  // const sendMessage = async () => {
+  //   if (audioBlob) {
+  //     const audioPath = `${chatId}/${Date.now()}.webm`;
+  //     const { data, error } = await supabase.storage
+  //       .from("attachments")
+  //       .upload(audioPath, audioBlob);
 
-      if (error || !data) {
-        console.error("Audio upload failed:", error);
-        return;
-      }
+  //     if (error || !data) {
+  //       console.error("Audio upload failed:", error);
+  //       return;
+  //     }
 
-      const { data: urlData } = supabase.storage
-        .from("attachments")
-        .getPublicUrl(data.path);
+  //     const { data: urlData } = supabase.storage
+  //       .from("attachments")
+  //       .getPublicUrl(data.path);
 
-      await supabase.from("messages").insert([
-        {
-          chat_id: chatId,
-          sender_id: userId,
-          content: urlData.publicUrl,
-          type: "audio",
-          important: false,
-        },
-      ]);
+  //     await supabase.from("messages").insert([
+  //       {
+  //         chat_id: chatId,
+  //         sender_id: userId,
+  //         content: urlData.publicUrl,
+  //         type: "audio",
+  //         important: false,
+  //       },
+  //     ]);
 
-      setAudioBlob(null);
-      setAudioUrl(null);
-      setIsRecording(false);
+  //     setAudioBlob(null);
+  //     setAudioUrl(null);
+  //     setIsRecording(false);
+  //     return;
+  //   }
+
+  //   if (imageFile) {
+  //     const filePath = `${chatId}/${Date.now()}_${imageFile.name}`;
+  //     const { data, error } = await supabase.storage
+  //       .from("attachments")
+  //       .upload(filePath, imageFile);
+
+  //     if (error || !data) {
+  //       console.error("Image upload failed:", error);
+  //       return;
+  //     }
+
+  //     const { data: urlData } = supabase.storage
+  //       .from("attachments")
+  //       .getPublicUrl(data.path);
+
+  //     await supabase.from("messages").insert([
+  //       {
+  //         chat_id: chatId,
+  //         sender_id: userId,
+  //         content: urlData.publicUrl,
+  //         type: "image",
+  //         important: false,
+  //       },
+  //     ]);
+
+  //     setImageFile(null);
+  //     setImagePreviewUrl(null);
+  //     return;
+  //   }
+
+  //   if (!text.trim()) return;
+
+  //   await supabase.from("messages").insert([
+  //     {
+  //       chat_id: chatId,
+  //       sender_id: userId,
+  //       content: text.trim(),
+  //       type: "text",
+  //       important,
+  //     },
+  //   ]);
+
+  //   setText("");
+  //   setImportant(false);
+  //   setShowEmojiPicker(false);
+  // };
+
+const sendMessage = async () => {
+  if (!chatId || !userId) return;
+
+  const generateTempId = () => `temp-${Date.now()}`;
+
+  const createOptimisticMessage = (content: string, type: "text" | "image" | "audio", importantFlag = false) => ({
+    id: generateTempId(),
+    chat_id: chatId,
+    sender_id: userId,
+    content,
+    type,
+    important: importantFlag,
+    created_at: new Date().toISOString(),
+  });
+
+  if (audioBlob) {
+    const audioPath = `${chatId}/${Date.now()}.webm`;
+
+    const tempAudioMsg = createOptimisticMessage(URL.createObjectURL(audioBlob), "audio");
+    setMessages((prev) => [...prev, tempAudioMsg]);
+
+    const { data, error } = await supabase.storage.from("attachments").upload(audioPath, audioBlob);
+    if (error || !data) {
+      setMessages((prev) => prev.filter((msg) => msg.id !== tempAudioMsg.id));
       return;
     }
 
-    if (imageFile) {
-      const filePath = `${chatId}/${Date.now()}_${imageFile.name}`;
-      const { data, error } = await supabase.storage
-        .from("attachments")
-        .upload(filePath, imageFile);
-
-      if (error || !data) {
-        console.error("Image upload failed:", error);
-        return;
-      }
-
-      const { data: urlData } = supabase.storage
-        .from("attachments")
-        .getPublicUrl(data.path);
-
-      await supabase.from("messages").insert([
-        {
-          chat_id: chatId,
-          sender_id: userId,
-          content: urlData.publicUrl,
-          type: "image",
-          important: false,
-        },
-      ]);
-
-      setImageFile(null);
-      setImagePreviewUrl(null);
-      return;
-    }
-
-    if (!text.trim()) return;
-
+    const { data: urlData } = supabase.storage.from("attachments").getPublicUrl(data.path);
     await supabase.from("messages").insert([
       {
         chat_id: chatId,
         sender_id: userId,
-        content: text.trim(),
-        type: "text",
-        important,
+        content: urlData.publicUrl,
+        type: "audio",
+        important: false,
       },
     ]);
 
-    setText("");
-    setImportant(false);
-    setShowEmojiPicker(false);
-  };
+    setAudioBlob(null);
+    setAudioUrl(null);
+    setIsRecording(false);
+    return;
+  }
+
+  if (imageFile) {
+    const filePath = `${chatId}/${Date.now()}_${imageFile.name}`;
+
+    const tempImageMsg = createOptimisticMessage(URL.createObjectURL(imageFile), "image");
+    setMessages((prev) => [...prev, tempImageMsg]);
+
+    const { data, error } = await supabase.storage.from("attachments").upload(filePath, imageFile);
+    if (error || !data) {
+      setMessages((prev) => prev.filter((msg) => msg.id !== tempImageMsg.id));
+      return;
+    }
+
+    const { data: urlData } = supabase.storage.from("attachments").getPublicUrl(data.path);
+    await supabase.from("messages").insert([
+      {
+        chat_id: chatId,
+        sender_id: userId,
+        content: urlData.publicUrl,
+        type: "image",
+        important: false,
+      },
+    ]);
+
+    setImageFile(null);
+    setImagePreviewUrl(null);
+    return;
+  }
+
+  if (!text.trim()) return;
+
+  const tempTextMsg = createOptimisticMessage(text.trim(), "text", important);
+  setMessages((prev) => [...prev, tempTextMsg]);
+
+  const { error } = await supabase.from("messages").insert([
+    {
+      chat_id: chatId,
+      sender_id: userId,
+      content: text.trim(),
+      type: "text",
+      important,
+    },
+  ]);
+  if (error) {
+    setMessages((prev) => prev.filter((msg) => msg.id !== tempTextMsg.id));
+  }
+
+  setText("");
+  setImportant(false);
+  setShowEmojiPicker(false);
+};
+
 
   const handleEnter = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
