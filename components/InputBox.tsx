@@ -213,7 +213,8 @@ export default function MessageInput({ chatId, userId }: Props) {
   };
 
   const toggleRecording = () => {
-    isRecording ? stopRecording() : startRecording();
+    const a = isRecording ? stopRecording() : startRecording();
+    console.log(a)
   };
 
   const clearAudio = () => {
