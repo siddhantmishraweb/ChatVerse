@@ -9,19 +9,39 @@ import type { User, Chat } from "../../types";
 export default function ChatsPage() {
   const [user, setUser] = useState<User | null>(null);
 
-  useEffect(() => {
-    // localStorage is safe to use here (browser only)
-    const savedSession = localStorage.getItem('supabaseSession');
-    if (savedSession) {
-      try {
+  // useEffect(() => {
+  //   // localStorage is safe to use here (browser only)
+  //   const savedSession = localStorage.getItem('supabaseSession');
+  //   if (savedSession) {
+  //     try {
+  //       const parsed = JSON.parse(savedSession);
+  //       console.log("parsed::: ", parsed);
+  //       setUser(parsed?.user || null);
+  //     } catch (err) {
+  //       console.error('Failed to parse session from localStorage:', err);
+  //     }
+  //   }
+  // }, []);
+
+useEffect(() => {
+  const fetchUserData = async () => {
+    try {
+      const savedSession = localStorage.getItem('supabaseSession');
+      if (savedSession) {
         const parsed = JSON.parse(savedSession);
         console.log("parsed::: ", parsed);
         setUser(parsed?.user || null);
-      } catch (err) {
-        console.error('Failed to parse session from localStorage:', err);
       }
+    } catch (err) {
+      console.error('Failed to parse session from localStorage:', err);
     }
-  }, []);
+  };
+
+  fetchUserData();
+}, []);
+
+
+
   const [chats, setChats] = useState<Chat[]>([]);
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [activeChat, setActiveChat] = useState<Chat | null>(null);
