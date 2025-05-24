@@ -30,7 +30,7 @@ useEffect(() => {
       if (savedSession) {
         const parsed = JSON.parse(savedSession);
         console.log("parsed::: ", parsed);
-        setUser(parsed?.user || null);
+        setUser(parsed?.session?.user || null);
       }
     } catch (err) {
       console.error('Failed to parse session from localStorage:', err);
