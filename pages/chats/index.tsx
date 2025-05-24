@@ -36,12 +36,14 @@ const addToSenderList = (otherUser: User) => {
     return prev;
   });
 };
+
+console.log("user ======================= ", user)
   // 1. Get current user
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      if (data.user) setUser(data.user as User);
-    });
-  }, []);
+  // useEffect(() => {
+  //   supabase.auth.getUser().then(({ data }) => {
+  //     if (data.user) setUser(data.user as User);
+  //   });
+  // }, []);
 
   useEffect(() => {
     if (!user) return;
