@@ -59,6 +59,7 @@ const handleLogout = async () => {
         <button
           onClick={handleLogout}
           className="text-red-500 hover:text-red-600"
+          style={{cursor: 'pointer'}}
         >
           Logout
         </button>
