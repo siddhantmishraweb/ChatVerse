@@ -103,13 +103,10 @@ export default function Login() {
       // }
       if (data?.session) {
         localStorage.setItem('supabaseSession', JSON.stringify(data));
-        router.push('/chats');
+        return router.push('/chats');
       } else {
         localStorage.removeItem('supabaseSession');
       }
-
-
-
     });
   }, []);
 
