@@ -354,16 +354,41 @@ export default function ChatsPage() {
     fetchChats();
   }, [user]);
 
-  useEffect(() => {
-    if (!user) return;
-    supabase
-      .from<User>("users")
-      .select("*")
-      .then(({ data, error }) => {
-        if (error) return console.error(error);
-        setAllUsers(data ?? []);
-      });
-  }, [user]);
+  // useEffect(() => {
+  //   if (!user) return;
+  //   supabase
+  //     .from<User>("users")
+  //     .select("*")
+  //     .then(({ data, error }) => {
+  //       if (error) return console.error(error);
+  //       setAllUsers(data ?? []);
+  //     });
+  // }, [user]);
+
+useEffect(() => {
+  if (!user) return;
+
+  const localAllUsers = localStorage.getItem("allUsers");
+  if (localAllUsers) {
+    try {
+      const parsedUsers = JSON.parse(localAllUsers);
+      setAllUsers(parsedUsers);
+      return;
+    } catch (err) {
+      console.error("Failed to parse allUsers from localStorage:", err);
+    }
+  }
+
+
+  supabase
+    .from<User>("users")
+    .select("*")
+    .then(({ data, error }) => {
+      if (error) return console.error("Error fetching users from Supabase:", error);
+      setAllUsers(data ?? []);
+      localStorage.setItem("allUsers", JSON.stringify(data ?? []));
+    });
+}, [user]);
 
   const handleStartChat = async (other: User) => {
     if (!user) return;
