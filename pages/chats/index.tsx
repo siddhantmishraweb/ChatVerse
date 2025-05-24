@@ -5,6 +5,7 @@ import { supabase } from "../../utils/supabaseClient";
 import ChatSidebar from "../../components/ChatSidebar";
 import ChatWindow from "../../components/ChatWindow";
 import type { User, Chat } from "../../types";
+import Loader from "../../components/Loader";
 
 export default function ChatsPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -175,7 +176,7 @@ console.log("user ======================= ", user)
 
   if (!user) {
     return (
-      <div className="flex-1 flex items-center justify-center">Loading…</div>
+      <Loader/>
     );
   }
 
