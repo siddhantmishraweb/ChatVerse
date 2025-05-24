@@ -18,6 +18,7 @@ export default function ChatListItem({
   onSelect,
 }: Props) {
   console.info("current user:", currentUser)
+  console.info("senderUser ChatListItem ", senderUser)
   const { title, last_message } = chat;
   return (
     <article
@@ -26,7 +27,7 @@ export default function ChatListItem({
       aria-label={`Open chat ${title}`}
     >
       <img
-        src={senderUser.avatar_url}
+        src={senderUser?.avatar_url || "/avatar.png"}
         alt="avatar"
         className="w-12 h-12 rounded-full mr-4"
       />
