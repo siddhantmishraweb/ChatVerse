@@ -294,65 +294,143 @@ export default function ChatsPage() {
     });
   };
 
-  useEffect(() => {
-    if (!user) return;
+  // useEffect(() => {
+  //   if (!user) return;
 
-    const fetchChats = async () => {
-      const { data: chatsData, error } = await supabase
-        .from("chats")
-        .select("*")
-        .contains("members", [user.id])
-        .order("last_updated", { ascending: false });
+  //   const fetchChats = async () => {
+  //     const { data: chatsData, error } = await supabase
+  //       .from("chats")
+  //       .select("*")
+  //       .contains("members", [user.id])
+  //       .order("last_updated", { ascending: false });
 
-      if (error) {
-        console.error("Error fetching chats:", error);
-        return;
+  //     if (error) {
+  //       console.error("Error fetching chats:", error);
+  //       return;
+  //     }
+
+  //     if (!chatsData) {
+  //       setChats([]);
+  //       return;
+  //     }
+
+  //     const filteredChats = chatsData.filter((chat) => {
+  //       const uniqueMembers = [...new Set(chat.members)];
+  //       return uniqueMembers.length > 1;
+  //     });
+
+  //     const updatedChats = await Promise.all(
+  //       filteredChats.map(async (chat) => {
+  //         const otherMemberId = chat.members.find((m) => m !== user.id);
+  //         if (!otherMemberId) return chat;
+
+  //         const { data: otherUser, error } = await supabase
+  //           .from("users")
+  //           .select("id, username, avatar_url")
+  //           .eq("id", otherMemberId)
+  //           .single();
+
+  //         if (otherUser) addToSenderList(otherUser);
+
+  //         if (error) {
+  //           console.warn("Could not fetch user for chat title", error);
+  //           return chat;
+  //         }
+
+  //         return {
+  //           ...chat,
+  //           title: otherUser?.username || "Unknown User",
+  //           avatar: otherUser?.avatar_url || "",
+  //         };
+  //       })
+  //     );
+
+  //     setChats(updatedChats);
+  //     if (!activeChat && updatedChats.length) {
+  //       setActiveChat(updatedChats[0]);
+  //     }
+  //   };
+
+  //   fetchChats();
+  // }, [user]);
+
+
+useEffect(() => {
+  if (!user) return;
+
+  const localChats = localStorage.getItem("chatsData");
+  if (localChats) {
+    try {
+      const parsedChats = JSON.parse(localChats);
+      setChats(parsedChats);
+      if (!activeChat && parsedChats.length) {
+        setActiveChat(parsedChats[0]);
       }
+    } catch (e) {
+      console.error("Failed to parse chats from localStorage", e);
+    }
+  }
 
-      if (!chatsData) {
-        setChats([]);
-        return;
-      }
+  const fetchChats = async () => {
+    const { data: chatsData, error } = await supabase
+      .from("chats")
+      .select("*")
+      .contains("members", [user.id])
+      .order("last_updated", { ascending: false });
 
-      const filteredChats = chatsData.filter((chat) => {
-        const uniqueMembers = [...new Set(chat.members)];
-        return uniqueMembers.length > 1;
-      });
+    if (error) {
+      console.error("Error fetching chats:", error);
+      return;
+    }
 
-      const updatedChats = await Promise.all(
-        filteredChats.map(async (chat) => {
-          const otherMemberId = chat.members.find((m) => m !== user.id);
-          if (!otherMemberId) return chat;
+    if (!chatsData) {
+      setChats([]);
+      localStorage.removeItem("chatsData");
+      return;
+    }
 
-          const { data: otherUser, error } = await supabase
-            .from("users")
-            .select("id, username, avatar_url")
-            .eq("id", otherMemberId)
-            .single();
+    const filteredChats = chatsData.filter((chat) => {
+      const uniqueMembers = [...new Set(chat.members)];
+      return uniqueMembers.length > 1;
+    });
 
-          if (otherUser) addToSenderList(otherUser);
+    const updatedChats = await Promise.all(
+      filteredChats.map(async (chat) => {
+        const otherMemberId = chat.members.find((m) => m !== user.id);
+        if (!otherMemberId) return chat;
 
-          if (error) {
-            console.warn("Could not fetch user for chat title", error);
-            return chat;
-          }
+        const { data: otherUser, error } = await supabase
+          .from("users")
+          .select("id, username, avatar_url")
+          .eq("id", otherMemberId)
+          .single();
 
-          return {
-            ...chat,
-            title: otherUser?.username || "Unknown User",
-            avatar: otherUser?.avatar_url || "",
-          };
-        })
-      );
+        if (otherUser) addToSenderList(otherUser);
 
-      setChats(updatedChats);
-      if (!activeChat && updatedChats.length) {
-        setActiveChat(updatedChats[0]);
-      }
-    };
+        if (error) {
+          console.warn("Could not fetch user for chat title", error);
+          return chat;
+        }
 
-    fetchChats();
-  }, [user]);
+        return {
+          ...chat,
+          title: otherUser?.username || "Unknown User",
+          avatar: otherUser?.avatar_url || "",
+        };
+      })
+    );
+
+    setChats(updatedChats);
+    localStorage.setItem("chatsData", JSON.stringify(updatedChats));
+
+    if (!activeChat && updatedChats.length) {
+      setActiveChat(updatedChats[0]);
+    }
+  };
+
+  fetchChats();
+}, [user]);
+
 
   // useEffect(() => {
   //   if (!user) return;
