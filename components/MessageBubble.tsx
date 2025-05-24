@@ -29,6 +29,8 @@ export default function MessageBubble({ message, isOwn, senderAvatar }: Props) {
     }
   };
 
+console.log("duration", duration)
+
   const handleEnded = () => setIsPlaying(false);
 
   const formatTime = (seconds: number) => {
