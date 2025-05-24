@@ -93,9 +93,16 @@ export default function Login() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
+      //if (data?.session) {
+        //router.push('/chats');
+      //}
       if (data?.session) {
+        localStorage.setItem('supabaseSession', JSON.stringify(data));
         router.push('/chats');
+      } else {
+        localStorage.removeItem('supabaseSession');
       }
+
     });
   }, []);
 
