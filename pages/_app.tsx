@@ -88,7 +88,7 @@ export default function App({ Component, pageProps }: AppProps) {
             .upsert({
               id: u.id,
               username: u.user_metadata.full_name || u.email || u.id,
-              avatar_url: u.user_metadata.avatar_url || null,
+              avatar_url: u.user_metadata.avatar_url || "https://img.freepik.com/free-psd/3d-illustration-person-with-glasses-half-shaved-head_23-2149436187.jpg?ga=GA1.1.1768913789.1737261835&w=740",
             })
           if (error) console.error('User upsert error:', error)
         }

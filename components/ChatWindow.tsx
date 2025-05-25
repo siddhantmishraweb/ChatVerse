@@ -100,7 +100,7 @@ export default function ChatWindow({
         {messages.map((msg) => {
           const sender = senderList.find((u) => u.id === msg.sender_id);
           const avatar =
-            sender?.avatar_url || user?.user_metadata?.picture || "";
+            sender?.avatar_url || user?.user_metadata?.picture || "https://img.freepik.com/premium-vector/teenager-boy-avatar-social-media_316839-9932.jpg";
 
           return (
             <MessageBubble

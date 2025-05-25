@@ -43,7 +43,7 @@ export default function ChatSidebar({
       <header className="p-4 flex items-center justify-between border-b">
         <div className="flex items-center">
           <img
-            src={user?.user_metadata?.avatar_url || "/avatar-placeholder.png"}
+            src={user?.user_metadata?.avatar_url || "https://img.freepik.com/free-psd/3d-illustration-business-man-with-glasses_23-2149436194.jpg?t=st=1748164973~exp=1748168573~hmac=7d7161b95647cf4ef8eea1ad5a8b408565fd3b185a3501e5374cb14ca2c84377"}
             alt="Your avatar"
             className="w-10 h-10 rounded-full mr-3"
           />
@@ -93,7 +93,7 @@ export default function ChatSidebar({
             className="w-full text-left p-3 hover:bg-gray-100 flex items-center"
           >
             <img
-              src={u.avatar_url || "/avatar-placeholder.png"}
+              src={u?.avatar_url || "https://img.freepik.com/premium-psd/3d-cartoon-character-isolated-3d-rendering_235528-536.jpg"}
               alt={u.username}
               className="w-8 h-8 rounded-full mr-3"
             />

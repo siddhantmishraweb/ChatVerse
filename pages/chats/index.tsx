@@ -141,7 +141,7 @@ export default function ChatsPage() {
           return {
             ...chat,
             title: otherUser?.username || "Unknown User",
-            avatar: otherUser?.avatar_url || "",
+            avatar: otherUser?.avatar_url || "https://img.freepik.com/premium-psd/3d-illustration-business-man-with-glasses_23-2149436193.jpg?ga=GA1.1.1768913789.1737261835&w=740",
           };
         })
       );
