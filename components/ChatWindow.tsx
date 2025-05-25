@@ -164,10 +164,33 @@ console.log("onSelectChat" , onSelectChat)
 
   }, [activeChat]);
 
-  useRealtimeMessages(activeChat?.id || "", (newMsg) => {
-    setMessages((prev) => [...prev, newMsg]);
-    saveMessageToDB(newMsg);
+  // useRealtimeMessages(activeChat?.id || "", (newMsg) => {
+  //   setMessages((prev) => [...prev, newMsg]);
+  //   saveMessageToDB(newMsg);
+  // });
+
+useRealtimeMessages(activeChat?.id || "", (newMsg) => {
+  setMessages((prev) => {
+    const existingIndex = prev.findIndex(
+      (m) =>
+        m.id === newMsg.id ||
+        (m.sender_id === newMsg.sender_id &&
+         m.created_at === newMsg.created_at &&
+         m.type === newMsg.type &&
+         m.chat_id === newMsg.chat_id)
+    );
+
+    if (existingIndex !== -1) {
+      const updated = [...prev];
+      updated[existingIndex] = newMsg;
+      return updated;
+    }
+
+    return [...prev, newMsg];
   });
+
+  saveMessageToDB(newMsg);
+});
 
   useEffect(() => {
     scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight);
