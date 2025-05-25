@@ -1,94 +1,3 @@
-// import { useEffect } from 'react';
-// import { useRouter } from 'next/router';
-// import { supabase } from '../utils/supabaseClient';
-
-// export default function Login() {
-//   const router = useRouter();
-//   useEffect(() => { supabase.auth.getSession().then(({ data }) => data.session && router.push('/chats')); }, []);
-//   const login = () => supabase.auth.signInWithOAuth({ provider: 'google' });
-//   return (
-//     <main className="h-screen flex items-center justify-center bg-gray-100">
-//       <button onClick={login} className="px-6 py-3 bg-green-500 text-white rounded-lg shadow">Login with Google</button>
-//     </main>
-//   );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { useEffect, useState } from 'react';
-// import { supabase } from '../utils/supabaseClient';
-// import ChatSidebar from '../components/ChatSidebar';
-// import ChatWindow from '../components/ChatWindow';
-// import type { User } from '../types';
-
-// export default function ChatsPage() {
-//   const [user, setUser] = useState<User | null>({name: 'Sidd', id:'123'});
-//   useEffect(() => { supabase.auth.getUser().then(({ data }) => setUser({name: 'Sidd', id:'123'} as User)); }, []);
-//   //if (!user) return <div>Loading...</div>;
-//   return (<div className="flex h-screen"><ChatSidebar user={user} /><ChatWindow user={user} /></div>);
-// }
-
-
-
-
-
-
-
-// import { useEffect } from 'react';
-// import { useRouter } from 'next/router';
-// import { supabase } from '../utils/supabaseClient';
-
-// export default function Login() {
-//   const router = useRouter();
-
-//   useEffect(() => {
-//     supabase.auth.getSession().then(({ data }) => {
-//       if (data && data.session) {
-//         router.push('/chats');
-//       }
-//     });
-//   }, []);
-
-//   const login = () => {
-//     supabase.auth.signInWithOAuth({ provider: 'google' });
-//   };
-
-//   return (
-//     <main className="h-screen flex items-center justify-center bg-gradient-to-br from-green-400 to-blue-500">
-//       <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
-//         <h1 className="text-3xl font-bold text-center mb-8">Welcome to Your Chat App</h1>
-//         <button onClick={login} className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-lg transition-colors duration-300 ease-in-out">
-//           <div className="flex items-center justify-center">
-//             <span className="mr-2">Login with Google</span>
-//             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-//             </svg>
-//           </div>
-//         </button>
-//       </div>
-//     </main>
-//   );
-// }
-
-
-
-
-
-
-
-
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { supabase } from '../utils/supabaseClient';
@@ -98,9 +7,6 @@ export default function Login() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      // if (data?.session) {
-      //   router.push('/chats');
-      // }
       console.log("Session:: ", data)
       if (data?.session) {
         localStorage.setItem('supabaseSession', JSON.stringify(data));
@@ -115,17 +21,6 @@ export default function Login() {
 
   return (
     <main className="relative h-screen w-screen overflow-hidden font-sans">
-      {/* Background Video */}
-      {/* <video
-        autoPlay
-        loop
-        muted
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      >
-        <source src="/public/futuristic-bg.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video> */}
-
       {/* Overlay */}
       <div className="absolute inset-0 bg-black bg-opacity-50 z-10" />
 
