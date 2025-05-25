@@ -495,6 +495,7 @@ export default function MessageInput({ chatId, userId, onSend }: Props) {
         "audio"
       );
       setMessages((prev) => [...prev, tempAudioMsg]);
+      onSend?.(tempAudioMsg);
 
       const { data, error } = await supabase.storage
         .from("attachments")
