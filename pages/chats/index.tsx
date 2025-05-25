@@ -221,7 +221,6 @@ export default function ChatsPage() {
   return (
     <div className="flex flex-col h-screen md:flex-row">
       <ChatSidebar
-        className="w-full h-1/2 md:h-full md:w-1/3 overflow-y-auto"
         user={user}
         chats={chats}
         allUsers={allUsers}
