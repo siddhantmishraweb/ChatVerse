@@ -1,40 +1,136 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 💬 ChatVerse
 
-## Getting Started
+Welcome to **ChatVerse** – a real-time, Google-authenticated chat application built using **Next.js**, **Supabase**, **Tailwind CSS**, and **TypeScript**.
 
-First, run the development server:
+<div align="center">
+ 
+
+  ![image](https://github.com/user-attachments/assets/e1ecf6cb-f88c-4c75-abe1-d903c434c6d4)
+
+</div>
+
+---
+
+## 🚀 Live Demo
+
+🔗 [ChatVerse is live here](https://whatschatter.vercel.app/)
+
+---
+
+## 📌 Features
+
+- ✅ Google login via Supabase
+- ✅ Real-time chat functionality
+- ✅ Typing and sending messages stored in Supabase and updated live
+- ✅ Pixel-perfect UI (WhatsApp-inspired)
+- ✅ All users shown in the chat list with their Google profile picture
+- ✅ Open chat and message other users
+- ✅ Logout functionality
+- ✅ Fully responsive and accessible UI
+- ✅ Filters and Search for chats (WIP)
+- ✅ Add Labels to chats (WIP)
+- ✅ Assign members to chats (WIP)
+- ✅ IndexedDB caching (WIP)
+- ✅ Group Chat and Media Support (WIP)
+
+---
+
+## 🧱 Tech Stack
+
+- ⚙️ [Next.js](https://nextjs.org/)
+- 🎨 [Tailwind CSS](https://tailwindcss.com/)
+- 🔐 [Supabase](https://supabase.com/) (Auth + Realtime DB)
+- ⛑️ [TypeScript](https://www.typescriptlang.org/)
+- 🎭 [React Icons](https://react-icons.github.io/react-icons/)
+- 🧠 IndexedDB (Planned)
+
+---
+
+## 🏁 Getting Started
+
+### 1. Clone the Repository
 
 ```bash
+git clone https://github.com/yourusername/chatverse.git
+cd chatverse
+2. Install Dependencies
+bash
+Copy
+Edit
+npm install
+# or
+yarn install
+3. Configure Supabase
+Create a project on Supabase
+
+Enable Google OAuth Provider
+
+Add redirect URI: http://localhost:3000
+
+Copy your SUPABASE_URL and SUPABASE_ANON_KEY
+
+Create .env.local file
+
+bash
+Copy
+Edit
+NEXT_PUBLIC_SUPABASE_URL=https://your-supabase-url.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+4. Run Development Server
+bash
+Copy
+Edit
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+🗃️ Supabase Schema
+profiles Table (automatically created)
+id - UUID (Primary key, user ID)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+email - Text
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+avatar_url - Text
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+full_name - Text
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+messages Table
+Column	Type	Description
+id	UUID	Primary key
+sender_id	UUID	Reference to profiles
+receiver_id	UUID	Reference to profiles
+content	Text	Message body
+created_at	Timestamp	Message timestamp
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+![image](https://github.com/user-attachments/assets/7148335e-ca97-45cf-a5fc-2c975a73b76e)
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+✨ Deployment
+Deployed on Vercel.
+
+🔗 https://whatschatter.vercel.app/
+
+📌 TODO
+ Add group chat functionality
+
+ Enable file/image/video attachments
+
+ Use IndexedDB to cache messages
+
+ Improve UI animations and transitions
+
+ Filter/Search functionality
+
+ Assign labels and members to chats
+
+👨‍💻 Author
+Developed by Siddhant Mishra
+
+📜 License
+This project is licensed under the MIT License.
+
+
