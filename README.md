@@ -7,6 +7,12 @@ Welcome to **ChatVerse** – a real-time, Google-authenticated chat application 
 
   ![image](https://github.com/user-attachments/assets/e1ecf6cb-f88c-4c75-abe1-d903c434c6d4)
 
+![Uploading image.png…]()
+
+![Uploading image.png…]()
+
+
+
 </div>
 
 ---
@@ -100,14 +106,6 @@ sender_id	UUID	Reference to profiles
 receiver_id	UUID	Reference to profiles
 content	Text	Message body
 created_at	Timestamp	Message timestamp
-
-
-
-
-
-![image](https://github.com/user-attachments/assets/7148335e-ca97-45cf-a5fc-2c975a73b76e)
-
-
 
 ✨ Deployment
 Deployed on Vercel.
