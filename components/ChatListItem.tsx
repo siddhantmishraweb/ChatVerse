@@ -26,7 +26,7 @@ export default function ChatListItem({
       aria-label={`Open chat ${title}`}
     >
       <img
-        src={senderUser?.avatar_url || "/avatar.png"}
+        src={senderUser?.avatar_url || "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?ga=GA1.1.1768913789.1737261835&semt=ais_hybrid&w=740"}
         alt="avatar"
         className="w-12 h-12 rounded-full mr-4"
       />

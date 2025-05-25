@@ -30,19 +30,12 @@ export default function ChatSidebar({
 
   console.log("senderList------", senderList);
 
-  // const handleLogout = async () => {
-  //   await supabase.auth.signOut();
-  //   window.location.href = "/login";
-  // };
+  const handleLogout = async () => {
+    localStorage.clear();
 
-const handleLogout = async () => {
-  await supabase.auth.signOut();
-  
-  localStorage.clear();
-  
-  window.location.href = "/";
-};
-
+    window.location.href = "/";
+    await supabase.auth.signOut();
+  };
 
   return (
     <aside className="w-80 bg-white border-r flex flex-col">
@@ -50,7 +43,7 @@ const handleLogout = async () => {
       <header className="p-4 flex items-center justify-between border-b">
         <div className="flex items-center">
           <img
-            src={user.user_metadata.avatar_url || "/avatar-placeholder.png"}
+            src={user?.user_metadata?.avatar_url || "/avatar-placeholder.png"}
             alt="Your avatar"
             className="w-10 h-10 rounded-full mr-3"
           />
@@ -59,7 +52,7 @@ const handleLogout = async () => {
         <button
           onClick={handleLogout}
           className="text-red-500 hover:text-red-600"
-          style={{cursor: 'pointer'}}
+          style={{ cursor: "pointer" }}
         >
           Logout
         </button>
