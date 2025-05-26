@@ -143,7 +143,8 @@ export default function MessageInput({ chatId, userId, onSend }: Props) {
 
     onSend?.(tempTextMsg);
 
-    const { error } = await supabase.from("messages").insert([
+    try {
+    const data1 = await supabase.from("messages").insert([
       {
         chat_id: chatId,
         sender_id: userId,
@@ -152,9 +153,18 @@ export default function MessageInput({ chatId, userId, onSend }: Props) {
         important,
       },
     ]);
-    if (error) {
+
+    console.log("data1=====", data1)
+    console.log("ERROR =-==-======--== ")
+    if (data1) {
+      console.log("error::: ", data1)
       setMessages((prev) => prev.filter((msg) => msg.id !== tempTextMsg.id));
     }
+    } catch (err) {
+      console.log("errrrrrrrrrrr=>>>>", err)
+    }
+ 
+
 
     setText("");
     setImportant(false);
